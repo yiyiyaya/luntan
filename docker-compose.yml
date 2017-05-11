@@ -1,0 +1,33 @@
+forum:
+  image: golang:1.8.1
+  # build: .
+  # dockerfile: Dockerfile-compose
+  expose:
+    - '9091'
+  ports:
+    - 8002:9091
+  volumes:
+    - '.:/go/src/github.com/yiyiyaya/luntan'
+  environment:
+    MYSQL_ADDR: mysql_1
+    MYSQL_PORT: "3306"
+    MYSQL_DATABASE: mysql
+    MYSQL_USER: root
+    MYSQL_PASSWORD: root
+  working_dir: /go/src/github.com/yiyiyaya/luntan
+  # avoid exit
+  command: tail -f /dev/null
+  links:
+    - mysql
+   # - etcd
+mysql:
+  image: mysql:5.6.32
+  ports:
+    - 13307:3306
+  #volumes:
+# must ./docker-volumn/ instead docker-volumn/
+#    - '../docker-volumn/mysql/config/my.cnf:/etc/mysql/my.cnf'
+#    - '../docker-volumn/mysql/data/mysql:/var/lib/mysql'
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+

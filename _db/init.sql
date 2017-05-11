@@ -1,0 +1,17 @@
+
+CREATE  TABLE IF NOT EXISTS POST
+(
+	Id         VARCHAR(32) primary key,
+	Title      VARCHAR(256),
+	CreateTime DATETIME
+)DEFAULT CHARSET=UTF8;
+
+
+CREATE TABLE IF NOT EXISTS COMMENT
+(
+	Id         VARCHAR(32) primary key,
+	Content    VARCHAR(60000),
+	CreateTime DATETIME
+)DEFAULT CHARSET=UTF8;
+
+

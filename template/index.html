@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{{.Title}}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+
+        <script src="/static/js/vendor/jquery-1.12.0.min.js"></script>
+    </head>
+    <body>
+      
+        {{if .Error}}
+            {{.Error}}
+        {{else}}
+            {{range.Posts}}
+            <div>
+                <a href="/posts/{{.Id}}">{{.Title}}</a>
+            </div>
+            {{end}}
+        {{end}}
+<form id="form" action="" method="post">
+<input id="title"><br>
+<textarea id="content" rows="4"></textarea>
+<br><input id="submit" type="button" name="submit" value="submit">
+</form>
+<script>
+    $(document).ready(function(){
+        $("#submit").on('click', function(){
+            var sendjson = {"Post":{"Title":$('#title').val()},"Comment":{"Content":$('#content').val()}};
+            sendjson=JSON.stringify(sendjson)
+            console.log('text',sendjson)
+            
+            $.ajax({
+                url: '/api/v1/posts',
+                type : "POST",
+                dataType : 'json',
+                data :sendjson,
+                success : function(result) {
+                    console.log(result);
+                    location.reload();
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+    });
+</script>
+    </body>
+</html>

@@ -8,6 +8,12 @@ import (
 type DB interface {
 	CreatePost(postID, title, content string) (err error)
 	CreateComment(postID, content string) (commentID int64, err error)
+	ListPostsByCreateTime(startTime time.Time, maxReturns int) (posts []Post, err error)
+	GetPost(postID string) (post Post, comment []Comment, err error)
+	DeletePost(postID string) (err error)
+	DeleteComment(commentID int) (err error)
+	UpdatePost(postID, title, content string) (err error)
+	UpdateComment(id, content string) (err error)
 }
 
 var base32Encoding = base32.NewEncoding("abcdefghijklmnopqrstuvwxyz234567")

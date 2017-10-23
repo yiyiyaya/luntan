@@ -1,0 +1,63 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>{{.Title}}</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <script src="/static/js/vendor/jquery-1.12.0.min.js"></script>
+
+    </head>
+    <body>
+          <a href="/">Home</a>
+        {{if .Error}}
+            {{.Error}}
+        {{else}}
+            <h3>{{.Post.Title}}</h3>
+            {{range $i,$comment := .Comments}}
+                {{if IsEven $i}}
+                    <div style="background-color:#ddd">
+                    {{.Content}}
+                    </div>
+                {{else}}
+                    <div>
+                    {{.Content}}
+                    </div>
+                {{end}}
+            {{end}}
+        {{end}}
+<form id="form" action="" method="post">
+<textarea id="content" rows="4"></textarea>
+<input id="submit" type="button" name="submit" value="submit">
+</form>
+<script>
+    $(document).ready(function(){
+        $("#submit").on('click', function(){
+            var sendjson = {'Content': $("#content").val()};
+            sendjson=JSON.stringify(sendjson)
+            console.log('text',sendjson)
+            
+            $.ajax({
+                url: '/api/v1/posts/{{.Post.Id}}/comment',
+                type : "POST",
+                dataType : 'json',
+                data :sendjson,
+                success : function(result) {
+                    console.log(result);
+                    location.reload();
+                },
+                error: function(xhr, resp, text) {
+                    console.log(xhr, resp, text);
+                }
+            })
+        });
+    });
+</script>
+
+
+    </body>
+</html>
